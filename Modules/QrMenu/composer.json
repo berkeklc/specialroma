@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/qrmenu",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\QrMenu\\": "app/",
+            "Modules\\QrMenu\\Database\\Factories\\": "database/factories/",
+            "Modules\\QrMenu\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\QrMenu\\Tests\\": "tests/"
+        }
+    }
+}

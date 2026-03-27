@@ -1,0 +1,11 @@
+{
+    "name": "QrMenu",
+    "alias": "qrmenu",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\QrMenu\\Providers\\QrMenuServiceProvider"
+    ],
+    "files": []
+}

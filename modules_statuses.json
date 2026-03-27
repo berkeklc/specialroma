@@ -1,0 +1,10 @@
+{
+    "Core": true,
+    "QrMenu": true,
+    "Blog": true,
+    "Services": true,
+    "Portfolio": true,
+    "Team": true,
+    "Contact": true,
+    "Meeting": true
+}
