@@ -101,7 +101,10 @@ After install, the wizard automatically:
 2. **Settings → SEO** — meta defaults, Google Analytics ID, sitemap toggle
 3. **Settings → Mail** — SMTP credentials, notification email
 4. **Design → Navigation Menus** — add / reorder header and footer menu items
+   - Link type: **Internal page** (searchable dropdown with all module pages including `/book`), **External URL**, or **Anchor** (`#section`)
+   - Relative URLs like `/contact`, `/blog`, and `#section` are fully supported — no forced `https://` validation
 5. **Design → Header / Footer** — upload logo image, configure layout rows
+   - CTA button URLs accept relative paths (`/contact`), anchors (`#hero`), and absolute URLs
 6. **Content → Pages** — create pages, add content blocks, set homepage
 
 ---
@@ -109,6 +112,18 @@ After install, the wizard automatically:
 ## Development Workflow
 
 ### When you make changes in the admin panel
+
+### Public Booking Page (`/book`)
+
+When the Meeting module is enabled, a Cal.com-style booking page is available at `/book`:
+
+1. **Step 1** — Staff picker (auto-selected if single staff), interactive calendar, and available time slots based on staff working hours
+2. **Step 2** — Client details form (name, email, phone, optional guest email, notes)
+3. **Step 3** — Confirmation screen with appointment summary + email sent to client
+
+Add it to any navigation menu via **Design → Navigation Menus** → pick **"Book an appointment"** from the Internal Pages dropdown.
+
+---
 
 Changes to **Settings**, **Pages**, **Menus**, and **Header/Footer** are stored in the database and reflect on the public site immediately — no cache clear needed. Both `SiteHeader` and `SiteFooter` Livewire components always fetch fresh data on every request.
 
@@ -244,7 +259,7 @@ agencystack/
 | **Portfolio** | Project showcase with gallery and case studies |
 | **Team** | Staff profiles with bio, photo, and social links |
 | **Contact** | Public Livewire contact form, admin inbox, email notifications |
-| **Meeting** | Staff availability, appointment booking, email confirmations |
+| **Meeting** | Staff availability, appointment booking (Cal.com-style), email confirmations — public page at `/book` |
 | **QrMenu** | Restaurant/cafe QR menu, table QR codes, public menu page |
 
 ---

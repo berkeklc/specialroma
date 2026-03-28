@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Core\App\Livewire;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
 use Modules\Core\App\Enums\LayoutType;
@@ -19,8 +20,9 @@ final class SiteFooter extends Component
         $settings = app(GeneralSettings::class);
         $footerMenu = Menu::where('location', 'footer')->first();
 
-        $logoMedia = $layout?->getFirstMediaUrl('logo');
-        $logoUrl = $logoMedia ?: null;
+        $logoRow = collect($layout?->rows ?? [])->firstWhere('type', 'logo');
+        $logoPath = is_array($logoRow) ? ($logoRow['data']['image'] ?? null) : null;
+        $logoUrl = ! empty($logoPath) ? Storage::url($logoPath) : null;
         $textRow = collect($layout?->rows ?? [])->firstWhere('type', 'text_block');
         $socialLinks = $settings->social_links ?? [];
 

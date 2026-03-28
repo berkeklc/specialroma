@@ -17,6 +17,8 @@ final class GeneralSettingsPage extends Page implements HasForms
 {
     use InteractsWithForms;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected static ?string $navigationGroup = 'Settings';
@@ -34,15 +36,15 @@ final class GeneralSettingsPage extends Page implements HasForms
         $settings = app(GeneralSettings::class);
 
         $this->form->fill([
-            'site_name'        => $settings->site_name,
-            'site_tagline'     => $settings->site_tagline,
+            'site_name' => $settings->site_name,
+            'site_tagline' => $settings->site_tagline,
             'site_description' => $settings->site_description,
-            'logo_type'        => $settings->logo_type,
-            'logo_text'        => $settings->logo_text,
-            'contact_email'    => $settings->contact_email,
-            'contact_phone'    => $settings->contact_phone,
-            'contact_address'  => $settings->contact_address,
-            'social_links'     => $settings->social_links ?? [],
+            'logo_type' => $settings->logo_type,
+            'logo_text' => $settings->logo_text,
+            'contact_email' => $settings->contact_email,
+            'contact_phone' => $settings->contact_phone,
+            'contact_address' => $settings->contact_address,
+            'social_links' => $settings->social_links ?? [],
             'active_languages' => $settings->active_languages,
             'default_language' => $settings->default_language,
             'maintenance_mode' => $settings->maintenance_mode,
@@ -129,8 +131,8 @@ final class GeneralSettingsPage extends Page implements HasForms
                                     ->required(),
                                 Forms\Components\TextInput::make('url')
                                     ->label('URL')
-                                    ->url()
-                                    ->required(),
+                                    ->required()
+                                    ->placeholder('https://twitter.com/yourhandle'),
                             ])
                             ->columns(2)
                             ->addActionLabel('Add Social Link')
@@ -183,15 +185,15 @@ final class GeneralSettingsPage extends Page implements HasForms
             }
         }
 
-        $settings->site_name        = $data['site_name'];
-        $settings->site_tagline     = $data['site_tagline'] ?? '';
+        $settings->site_name = $data['site_name'];
+        $settings->site_tagline = $data['site_tagline'] ?? '';
         $settings->site_description = $data['site_description'];
-        $settings->logo_type        = $data['logo_type'] ?? 'text';
-        $settings->logo_text        = $data['logo_text'] ?: null;
-        $settings->contact_email    = $data['contact_email'];
-        $settings->contact_phone    = $data['contact_phone'];
-        $settings->contact_address  = $data['contact_address'];
-        $settings->social_links     = $socialLinks;
+        $settings->logo_type = $data['logo_type'] ?? 'text';
+        $settings->logo_text = ($data['logo_text'] ?? null) ?: null;
+        $settings->contact_email = $data['contact_email'];
+        $settings->contact_phone = $data['contact_phone'];
+        $settings->contact_address = $data['contact_address'];
+        $settings->social_links = $socialLinks;
         $settings->active_languages = $data['active_languages'] ?? ['tr', 'en'];
         $settings->default_language = $data['default_language'];
         $settings->maintenance_mode = (bool) ($data['maintenance_mode'] ?? false);

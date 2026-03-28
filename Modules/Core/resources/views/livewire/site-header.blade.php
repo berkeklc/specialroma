@@ -55,6 +55,11 @@
                 {{-- Language switcher --}}
                 @if (count($settings->active_languages) > 1)
                     <div class="lang-switcher" x-data="{ open: false }">
+                        @php
+                            $currentLocale = app()->getLocale();
+                            $flagMap = ['tr'=>'🇹🇷','en'=>'🇬🇧','de'=>'🇩🇪','fr'=>'🇫🇷','ar'=>'🇸🇦','ru'=>'🇷🇺','es'=>'🇪🇸'];
+                            $currentFlag = $flagMap[$currentLocale] ?? strtoupper($currentLocale);
+                        @endphp
                         <button
                             @click="open = !open"
                             @click.outside="open = false"
@@ -63,7 +68,8 @@
                             :aria-expanded="open"
                             aria-label="{{ __('Switch language') }}"
                         >
-                            {{ strtoupper(app()->getLocale()) }}
+                            <span aria-hidden="true">{{ $currentFlag }}</span>
+                            <span style="font-size:.8rem; font-weight:600;">{{ strtoupper($currentLocale) }}</span>
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"
                                  style="transition:transform 0.2s;" :style="open ? 'transform:rotate(180deg)' : ''">
                                 <path d="M5 7L1 3h8z"/>

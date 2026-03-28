@@ -6,7 +6,9 @@ namespace Modules\Meeting\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Team\App\Models\TeamMember;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
@@ -20,7 +22,7 @@ final class Staff extends Model implements HasMedia
     protected $table = 'meeting_staff';
 
     protected $fillable = [
-        'name', 'email', 'phone', 'photo', 'title', 'bio', 'expertise',
+        'team_member_id', 'name', 'email', 'phone', 'photo', 'title', 'bio', 'expertise',
         'working_hours', 'meeting_duration', 'buffer_time', 'is_active',
     ];
 
@@ -35,6 +37,11 @@ final class Staff extends Model implements HasMedia
             'buffer_time' => 'integer',
             'is_active' => 'boolean',
         ];
+    }
+
+    public function teamMember(): BelongsTo
+    {
+        return $this->belongsTo(TeamMember::class, 'team_member_id');
     }
 
     public function appointments(): HasMany

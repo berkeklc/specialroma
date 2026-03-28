@@ -8,11 +8,12 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
+use Filament\Support\Enums\MaxWidth;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -29,6 +30,7 @@ use Modules\Core\App\Filament\Resources\MenuResource;
 use Modules\Core\App\Filament\Resources\PageResource;
 use Modules\Core\App\Filament\Resources\UserResource;
 use Modules\Meeting\App\Filament\Resources\AppointmentResource;
+use Modules\Meeting\App\Filament\Resources\StaffResource;
 use Modules\Portfolio\App\Filament\Resources\ProjectResource;
 use Modules\QrMenu\App\Filament\Resources\MenuCategoryResource;
 use Modules\QrMenu\App\Filament\Resources\MenuItemResource;
@@ -47,26 +49,46 @@ final class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->spa()
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::Violet,
                 'gray' => Color::Slate,
             ])
+            ->font('DM Sans', 'https://fonts.bunny.net/css?family=dm-sans:400,500,600,700&display=swap')
             ->brandName('AgencyStack')
             ->favicon(null)
+            ->homeUrl(url('/'))
+            ->sidebarWidth('17rem')
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth(MaxWidth::SevenExtraLarge)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->resources($this->getResources())
             ->pages([
-                Pages\Dashboard::class,
                 GeneralSettingsPage::class,
                 SeoSettingsPage::class,
                 MailSettingsPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+            ->userMenuItems([
+                'general-settings' => MenuItem::make()
+                    ->label(__('General settings'))
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url(fn (): string => GeneralSettingsPage::getUrl())
+                    ->sort(24),
+                'seo-settings' => MenuItem::make()
+                    ->label(__('SEO & Analytics'))
+                    ->icon('heroicon-o-magnifying-glass-circle')
+                    ->url(fn (): string => SeoSettingsPage::getUrl())
+                    ->sort(25),
+                'mail-settings' => MenuItem::make()
+                    ->label(__('Mail / SMTP'))
+                    ->icon('heroicon-o-envelope')
+                    ->url(fn (): string => MailSettingsPage::getUrl())
+                    ->sort(26),
             ])
+            ->renderHook(PanelsRenderHook::GLOBAL_SEARCH_BEFORE, fn () => view('filament.hooks.admin-topbar-settings'))
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => view('filament.hooks.admin-panel-styles'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -116,6 +138,7 @@ final class AdminPanelProvider extends PanelProvider
                 ContactSubmissionResource::class,
             ],
             'Meeting' => [
+                StaffResource::class,
                 AppointmentResource::class,
             ],
         ];

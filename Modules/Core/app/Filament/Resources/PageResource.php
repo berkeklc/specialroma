@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Core\App\Filament\Resources;
 
 use Filament\Forms;
+use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -151,25 +152,29 @@ final class PageResource extends Resource
         ];
     }
 
-    /** @return array<\Filament\Forms\Components\Builder\Block> */
+    /** @return array<Block> */
     private static function getContentBlocks(): array
     {
         return [
-            Forms\Components\Builder\Block::make('hero')
+            Block::make('hero')
                 ->label('Hero Section')
                 ->icon('heroicon-o-star')
                 ->schema([
                     Forms\Components\TextInput::make('heading')->required(),
                     Forms\Components\Textarea::make('subheading'),
-                    Forms\Components\TextInput::make('cta_text')->label('CTA Button Text'),
-                    Forms\Components\TextInput::make('cta_url')->label('CTA URL')->url(),
+                    Forms\Components\TextInput::make('button_label')->label('CTA Button Text'),
+                    Forms\Components\TextInput::make('button_url')->label('CTA URL')
+                        ->placeholder('/contact or https://…'),
+                    Forms\Components\TextInput::make('button2_label')->label('Secondary Button Text'),
+                    Forms\Components\TextInput::make('button2_url')->label('Secondary Button URL')
+                        ->placeholder('/about or https://…'),
                     Forms\Components\FileUpload::make('background_image')->image(),
                     Forms\Components\Select::make('style')
                         ->options(['default' => 'Default', 'centered' => 'Centered', 'split' => 'Split'])
                         ->default('default'),
                 ]),
 
-            Forms\Components\Builder\Block::make('text')
+            Block::make('text')
                 ->label('Rich Text')
                 ->icon('heroicon-o-bars-3-bottom-left')
                 ->schema([
@@ -179,7 +184,7 @@ final class PageResource extends Resource
                         ->default('left'),
                 ]),
 
-            Forms\Components\Builder\Block::make('image')
+            Block::make('image')
                 ->label('Image')
                 ->icon('heroicon-o-photo')
                 ->schema([
@@ -191,7 +196,7 @@ final class PageResource extends Resource
                         ->default('full'),
                 ]),
 
-            Forms\Components\Builder\Block::make('gallery')
+            Block::make('gallery')
                 ->label('Image Gallery')
                 ->icon('heroicon-o-squares-2x2')
                 ->schema([
@@ -204,7 +209,7 @@ final class PageResource extends Resource
                         ->default('3'),
                 ]),
 
-            Forms\Components\Builder\Block::make('video')
+            Block::make('video')
                 ->label('Video Embed')
                 ->icon('heroicon-o-play-circle')
                 ->schema([
@@ -215,7 +220,7 @@ final class PageResource extends Resource
                     Forms\Components\TextInput::make('caption'),
                 ]),
 
-            Forms\Components\Builder\Block::make('services_grid')
+            Block::make('services_grid')
                 ->label('Services Grid')
                 ->icon('heroicon-o-squares-plus')
                 ->schema([
@@ -233,7 +238,7 @@ final class PageResource extends Resource
                         ->default('3'),
                 ]),
 
-            Forms\Components\Builder\Block::make('testimonials')
+            Block::make('testimonials')
                 ->label('Testimonials')
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->schema([
@@ -247,7 +252,7 @@ final class PageResource extends Resource
                         ]),
                 ]),
 
-            Forms\Components\Builder\Block::make('faq')
+            Block::make('faq')
                 ->label('FAQ Section')
                 ->icon('heroicon-o-question-mark-circle')
                 ->schema([
@@ -259,7 +264,7 @@ final class PageResource extends Resource
                         ]),
                 ]),
 
-            Forms\Components\Builder\Block::make('contact_form')
+            Block::make('contact_form')
                 ->label('Contact Form')
                 ->icon('heroicon-o-envelope')
                 ->schema([
@@ -270,14 +275,15 @@ final class PageResource extends Resource
                     Forms\Components\Toggle::make('show_map')->default(false),
                 ]),
 
-            Forms\Components\Builder\Block::make('cta_banner')
+            Block::make('cta_banner')
                 ->label('CTA Banner')
                 ->icon('heroicon-o-megaphone')
                 ->schema([
                     Forms\Components\TextInput::make('heading')->required(),
                     Forms\Components\Textarea::make('subheading'),
                     Forms\Components\TextInput::make('button_text'),
-                    Forms\Components\TextInput::make('button_url')->url(),
+                    Forms\Components\TextInput::make('button_url')
+                        ->placeholder('/contact or https://…'),
                     Forms\Components\ColorPicker::make('background_color')->default('#1a1a2e'),
                 ]),
         ];

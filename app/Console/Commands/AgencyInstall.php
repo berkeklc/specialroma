@@ -13,6 +13,7 @@ use Modules\Core\App\Models\Menu;
 use Modules\Core\App\Models\Page;
 use Modules\Core\App\Settings\GeneralSettings;
 use Modules\Core\Database\Seeders\CoreDatabaseSeeder;
+use Modules\Meeting\Database\Seeders\MeetingDatabaseSeeder;
 use Modules\QrMenu\Database\Seeders\QrMenuDatabaseSeeder;
 use Nwidart\Modules\Facades\Module;
 use Throwable;
@@ -252,6 +253,14 @@ final class AgencyInstall extends Command
             if ($moduleKey === 'QrMenu') {
                 $this->step('Seeding default QR Menu restaurant & sample data', function (): void {
                     $seeder = new QrMenuDatabaseSeeder;
+                    $seeder->setCommand($this);
+                    $seeder->run();
+                });
+            }
+
+            if ($moduleKey === 'Meeting') {
+                $this->step('Seeding default Meeting staff', function (): void {
+                    $seeder = new MeetingDatabaseSeeder;
                     $seeder->setCommand($this);
                     $seeder->run();
                 });

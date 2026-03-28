@@ -17,6 +17,8 @@ final class SeoSettingsPage extends Page implements HasForms
 {
     use InteractsWithForms;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'heroicon-o-magnifying-glass-circle';
 
     protected static ?string $navigationGroup = 'Settings';
@@ -56,7 +58,7 @@ final class SeoSettingsPage extends Page implements HasForms
                             ->maxLength(70)
                             ->suffixAction(
                                 Forms\Components\Actions\Action::make('char_count')
-                                    ->label(fn (?string $state): string => strlen((string) $state) . '/70')
+                                    ->label(fn (?string $state): string => strlen((string) $state).'/70')
                                     ->disabled()
                             )
                             ->columnSpanFull(),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Core\App\Livewire;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
 use Modules\Core\App\Enums\LayoutType;
@@ -20,11 +21,12 @@ final class SiteHeader extends Component
         $settings = app(GeneralSettings::class);
         $primaryMenu = Menu::where('location', 'primary')->first();
 
-        // Resolve logo: prefer MediaLibrary image, then text logo, then site name.
-        $logoMedia = $layout?->getFirstMediaUrl('logo');
-        $logoUrl = $logoMedia ?: null;
+        // Logo path lives in Layout Builder JSON (FileUpload), not MediaLibrary.
+        $logoRow = collect($layout?->rows ?? [])->firstWhere('type', 'logo');
+        $logoPath = is_array($logoRow) ? ($logoRow['data']['image'] ?? null) : null;
+        $logoUrl = ! empty($logoPath) ? Storage::url($logoPath) : null;
         $logoAlt = $logoUrl
-            ? (collect($layout?->rows ?? [])->firstWhere('type', 'logo')['data']['alt'] ?? $settings->site_name)
+            ? ((is_array($logoRow) ? ($logoRow['data']['alt'] ?? null) : null) ?: $settings->site_name)
             : null;
 
         $ctaRow = collect($layout?->rows ?? [])->firstWhere('type', 'cta_button');

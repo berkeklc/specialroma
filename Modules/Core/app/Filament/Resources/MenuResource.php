@@ -311,6 +311,12 @@ final class MenuResource extends Resource
             $options['/contact'] = '✉️ Contact page';
         }
 
+        // ── Meeting / Booking ─────────────────────────────────────────────────
+        if (Module::isEnabled('Meeting')) {
+            $options['group:meeting'] = '── Meeting / Booking ───────────';
+            $options['/book'] = '📅 Book an appointment';
+        }
+
         // ── QR Menu restaurants ───────────────────────────────────────────────
         if (Module::isEnabled('QrMenu')) {
             try {

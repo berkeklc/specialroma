@@ -18,6 +18,8 @@ final class MailSettingsPage extends Page implements HasForms
 {
     use InteractsWithForms;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
 
     protected static ?string $navigationGroup = 'Settings';
@@ -177,7 +179,7 @@ final class MailSettingsPage extends Page implements HasForms
             });
 
             Notification::make()
-                ->title('Test email sent to ' . $settings->admin_notification_email)
+                ->title('Test email sent to '.$settings->admin_notification_email)
                 ->success()
                 ->send();
         } catch (\Throwable $e) {

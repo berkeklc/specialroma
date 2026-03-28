@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Core\App\Filament\Resources;
 
 use Filament\Forms;
+use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -69,11 +70,11 @@ final class LayoutResource extends Resource
         ];
     }
 
-    /** @return array<\Filament\Forms\Components\Builder\Block> */
+    /** @return array<Block> */
     private static function getLayoutBlocks(): array
     {
         return [
-            Forms\Components\Builder\Block::make('logo')
+            Block::make('logo')
                 ->label('Logo')
                 ->icon('heroicon-o-photo')
                 ->schema([
@@ -82,7 +83,7 @@ final class LayoutResource extends Resource
                     Forms\Components\TextInput::make('width')->numeric()->default(150),
                 ]),
 
-            Forms\Components\Builder\Block::make('navigation')
+            Block::make('navigation')
                 ->label('Navigation Menu')
                 ->icon('heroicon-o-bars-3')
                 ->schema([
@@ -94,7 +95,7 @@ final class LayoutResource extends Resource
                         ->default('horizontal'),
                 ]),
 
-            Forms\Components\Builder\Block::make('language_switcher')
+            Block::make('language_switcher')
                 ->label('Language Switcher')
                 ->icon('heroicon-o-language')
                 ->schema([
@@ -103,7 +104,7 @@ final class LayoutResource extends Resource
                         ->default('dropdown'),
                 ]),
 
-            Forms\Components\Builder\Block::make('social_icons')
+            Block::make('social_icons')
                 ->label('Social Icons')
                 ->icon('heroicon-o-share')
                 ->schema([
@@ -116,12 +117,12 @@ final class LayoutResource extends Resource
                                     'youtube' => 'YouTube', 'tiktok' => 'TikTok',
                                     'whatsapp' => 'WhatsApp',
                                 ]),
-                            Forms\Components\TextInput::make('url')->url()->required(),
+                            Forms\Components\TextInput::make('url')->required()->helperText('Use relative (/contact) or absolute (https://...) URLs, or anchors (#section)'),
                         ])
                         ->columns(2),
                 ]),
 
-            Forms\Components\Builder\Block::make('contact_info')
+            Block::make('contact_info')
                 ->label('Contact Info')
                 ->icon('heroicon-o-phone')
                 ->schema([
@@ -130,18 +131,18 @@ final class LayoutResource extends Resource
                     Forms\Components\Textarea::make('address'),
                 ]),
 
-            Forms\Components\Builder\Block::make('cta_button')
+            Block::make('cta_button')
                 ->label('CTA Button')
                 ->icon('heroicon-o-cursor-arrow-ripple')
                 ->schema([
                     Forms\Components\TextInput::make('text')->required(),
-                    Forms\Components\TextInput::make('url')->url()->required(),
+                    Forms\Components\TextInput::make('url')->required()->helperText('Use relative (/contact) or absolute (https://...) URLs, or anchors (#section)'),
                     Forms\Components\Select::make('style')
                         ->options(['primary' => 'Primary', 'secondary' => 'Secondary', 'outline' => 'Outline'])
                         ->default('primary'),
                 ]),
 
-            Forms\Components\Builder\Block::make('text_block')
+            Block::make('text_block')
                 ->label('Text / Copyright')
                 ->icon('heroicon-o-document-text')
                 ->schema([
@@ -151,7 +152,7 @@ final class LayoutResource extends Resource
                         ->default('center'),
                 ]),
 
-            Forms\Components\Builder\Block::make('search_bar')
+            Block::make('search_bar')
                 ->label('Search Bar')
                 ->icon('heroicon-o-magnifying-glass')
                 ->schema([
