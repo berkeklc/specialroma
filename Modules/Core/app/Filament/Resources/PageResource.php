@@ -174,6 +174,34 @@ final class PageResource extends Resource
                         ->default('default'),
                 ]),
 
+            Block::make('roma_hero')
+                ->label('Roma — Hero (dondurma animasyonu)')
+                ->icon('heroicon-o-sparkles')
+                ->schema([
+                    Forms\Components\TextInput::make('heading')->required(),
+                    Forms\Components\Textarea::make('subheading'),
+                    Forms\Components\TextInput::make('button_label')->label('Birincil CTA'),
+                    Forms\Components\TextInput::make('button_url')->label('Birincil URL'),
+                    Forms\Components\TextInput::make('button2_label')->label('İkincil CTA'),
+                    Forms\Components\TextInput::make('button2_url')->label('İkincil URL'),
+                    Forms\Components\FileUpload::make('background_image')
+                        ->label('Arka plan fotoğrafı (opsiyonel)')
+                        ->image()
+                        ->helperText('Boş bırakılırsa deniz tonlarında gradient kullanılır.'),
+                ]),
+
+            Block::make('roma_dondurmalar')
+                ->label('Roma — Dondurmalar bölümü (animasyon)')
+                ->icon('heroicon-o-cake')
+                ->schema([
+                    Forms\Components\TextInput::make('heading')->default('Roma Dondurmaları'),
+                    Forms\Components\Textarea::make('text')
+                        ->label('Açıklama')
+                        ->columnSpanFull(),
+                    Forms\Components\TextInput::make('button_label')->label('CTA metni'),
+                    Forms\Components\TextInput::make('button_url')->label('CTA URL'),
+                ]),
+
             Block::make('text')
                 ->label('Rich Text')
                 ->icon('heroicon-o-bars-3-bottom-left')
@@ -207,6 +235,10 @@ final class PageResource extends Resource
                     Forms\Components\Select::make('columns')
                         ->options(['2' => '2 Columns', '3' => '3 Columns', '4' => '4 Columns'])
                         ->default('3'),
+                    Forms\Components\Select::make('layout')
+                        ->label('Layout')
+                        ->options(['grid' => 'Grid', 'masonry' => 'Masonry'])
+                        ->default('grid'),
                 ]),
 
             Block::make('video')
@@ -242,6 +274,7 @@ final class PageResource extends Resource
                 ->label('Testimonials')
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->schema([
+                    Forms\Components\TextInput::make('eyebrow'),
                     Forms\Components\TextInput::make('heading'),
                     Forms\Components\Repeater::make('items')
                         ->schema([

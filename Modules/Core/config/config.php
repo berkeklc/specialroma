@@ -7,6 +7,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Active Theme (body data-theme)
+    |--------------------------------------------------------------------------
+    */
+    'theme' => env('AGENCY_THEME', 'corporate'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Language Settings
     |--------------------------------------------------------------------------
     */
@@ -36,7 +43,7 @@ return [
     'page_builder' => [
         'cache_ttl' => 300,
         'allowed_blocks' => [
-            'hero', 'text', 'image', 'gallery', 'video',
+            'hero', 'roma_hero', 'roma_dondurmalar', 'text', 'image', 'gallery', 'video',
             'services_grid', 'testimonials', 'faq',
             'contact_form', 'cta_banner',
         ],

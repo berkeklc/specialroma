@@ -1,4 +1,4 @@
-<div>
+<div class="sr-page-content">
     @if (!empty($page->blocks))
         @include('core::partials.render-blocks', ['blocks' => $page->blocks])
     @else

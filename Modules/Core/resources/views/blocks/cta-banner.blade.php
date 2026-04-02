@@ -6,23 +6,24 @@
     $bgColor  = $block['data']['background_color'] ?? null;
 @endphp
 
-<section
-    class="block-cta block-section"
-    style="{{ $bgColor ? 'background:' . e($bgColor) . ';' : 'background:var(--color-primary);' }}"
->
-    <div class="container-site" style="text-align:center; max-width:720px; margin-inline:auto;">
-        <div class="fade-up">
-            @if ($heading)
-                <h2 style="font-size:clamp(1.875rem, 4vw, 3rem); margin:0 0 1.25rem; color:#fff;">{{ $heading }}</h2>
-            @endif
-            @if ($subtext)
-                <p style="font-size:1.125rem; color:rgba(255,255,255,0.8); margin:0 0 2.5rem; max-width:54ch; margin-inline:auto;">{{ $subtext }}</p>
-            @endif
-            @if ($btnLabel)
-                <a href="{{ $btnUrl }}" class="btn-primary" style="font-size:1rem; padding:0.875rem 2.25rem;">
-                    {{ $btnLabel }}
-                </a>
-            @endif
+<section class="sr-block sr-cta-section">
+    <div class="sr-cta-inner" style="{{ $bgColor ? '--cta-bg:' . e($bgColor) . ';' : '' }}">
+        <div class="sr-cta-glow" aria-hidden="true"></div>
+        <div class="container-site" style="position: relative; z-index: 2;">
+            <div class="fade-up sr-cta-content">
+                @if ($heading)
+                    <h2 class="sr-cta-title font-display">{{ $heading }}</h2>
+                @endif
+                @if ($subtext)
+                    <p class="sr-cta-subtitle">{{ $subtext }}</p>
+                @endif
+                @if ($btnLabel)
+                    <a href="{{ $btnUrl }}" class="sr-cta-btn">
+                        {{ $btnLabel }}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                @endif
+            </div>
         </div>
     </div>
 </section>

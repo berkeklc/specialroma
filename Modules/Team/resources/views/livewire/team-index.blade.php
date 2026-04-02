@@ -1,12 +1,12 @@
-<div>
-    <section class="page-header">
+<div class="sr-page sr-team-page">
+    <section class="page-header sr-page-header">
         <div class="container-site">
-            <h1 class="page-header__title">{{ __('Our Team') }}</h1>
-            <p class="page-header__subtitle">{{ __('The people behind our work.') }}</p>
+            <h1 class="page-header__title font-display">{{ __('Our Team') }}</h1>
+            <p class="page-header__subtitle font-sans">{{ __('The people behind our work.') }}</p>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section sr-section">
         <div class="container-site">
             @if ($members->isEmpty())
                 <div class="empty-state">

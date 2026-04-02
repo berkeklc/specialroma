@@ -4,20 +4,14 @@
 
             {{-- Brand column --}}
             <div class="footer-brand">
-                <a href="{{ route('home') }}" style="text-decoration:none; display:inline-block; margin-bottom:1.25rem;">
-                    @if ($logoUrl)
-                        <img
-                            src="{{ $logoUrl }}"
-                            alt="{{ $settings->site_name }}"
-                            width="120"
-                            height="36"
-                            style="height:36px; width:auto; filter:brightness(0) invert(1); opacity:0.9;"
-                        >
-                    @elseif ($settings->logo_type === 'text' && $settings->logo_text)
-                        <span class="footer-logo-text">{{ $settings->logo_text }}</span>
-                    @else
-                        <span class="footer-logo-text">{{ $settings->site_name }}</span>
-                    @endif
+                <a href="{{ route('home') }}" style="text-decoration:none; display:inline-block; margin-bottom:1.5rem;">
+                    <img
+                        src="{{ asset('roma-logo.png') }}"
+                        alt="{{ $settings->site_name }}"
+                        width="160"
+                        height="60"
+                        style="height:60px; width:auto; display:block;"
+                    >
                 </a>
 
                 @if ($settings->site_tagline)

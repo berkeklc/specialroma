@@ -18,10 +18,13 @@
     aria-label="{{ $heading }}"
 >
     @if ($bgImage)
-        <img class="block-hero__bg" src="{{ $bgImage }}" alt="" aria-hidden="true" loading="lazy">
-        <div class="block-hero__overlay" style="background:linear-gradient(135deg, rgba(0,0,0,{{ $overlay }}) 0%, rgba(0,0,0,{{ (float)$overlay * 0.4 }}) 100%);"></div>
+        @php
+            $bgSrc = \Illuminate\Support\Str::startsWith($bgImage, ['http://', 'https://']) ? $bgImage : \Illuminate\Support\Facades\Storage::url($bgImage);
+        @endphp
+        <img class="block-hero__bg" src="{{ $bgSrc }}" alt="" aria-hidden="true" loading="lazy">
+        <div class="block-hero__overlay" style="background:linear-gradient(to bottom, rgba(0,0,0,{{ (float)$overlay * 0.4 }}) 0%, rgba(0,0,0,{{ $overlay }}) 100%);"></div>
     @else
-        <div style="position:absolute; inset:0; background:linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);"></div>
+        <div style="position:absolute; inset:0; background:linear-gradient(to bottom, var(--color-accent) 0%, var(--color-primary) 100%); opacity:0.95;"></div>
     @endif
 
     <div class="container-site">

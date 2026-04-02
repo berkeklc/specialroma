@@ -11,6 +11,8 @@ use Modules\Core\App\Enums\LayoutType;
 use Modules\Core\App\Models\Layout;
 use Modules\Core\App\Models\Menu;
 use Modules\Core\App\Settings\GeneralSettings;
+use Modules\QrMenu\App\Models\Restaurant;
+use Nwidart\Modules\Facades\Module;
 
 final class SiteHeader extends Component
 {
@@ -31,6 +33,21 @@ final class SiteHeader extends Component
 
         $ctaRow = collect($layout?->rows ?? [])->firstWhere('type', 'cta_button');
 
+        $qrMenuUrl = null;
+        if (Module::isEnabled('QrMenu')) {
+            $restaurant = Restaurant::query()
+                ->where('is_active', true)
+                ->where('slug', 'special-roma')
+                ->first();
+            $table = $restaurant?->tables()->where('is_active', true)->first();
+            if ($restaurant && $table) {
+                $qrMenuUrl = route('qr-menu.public', [
+                    'restaurant' => $restaurant->slug,
+                    'table' => $table->id,
+                ]);
+            }
+        }
+
         return view('core::livewire.site-header', compact(
             'layout',
             'settings',
@@ -38,6 +55,7 @@ final class SiteHeader extends Component
             'logoUrl',
             'logoAlt',
             'ctaRow',
+            'qrMenuUrl',
         ));
     }
 }

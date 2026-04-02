@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Modules\Contact\App\Livewire;
 
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\View\View;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Modules\Contact\App\Actions\ProcessContactSubmission;
 
 final class ContactForm extends Component
 {
+    /** @var string Form identifier stored on submissions (e.g. contact, reservation). */
+    public string $formKey = 'contact';
+
     #[Rule(['required', 'string', 'min:2', 'max:100'])]
     public string $name = '';
 
@@ -30,21 +34,45 @@ final class ContactForm extends Component
     public string $website = '';
 
     public bool $submitted = false;
+
     public ?string $errorMessage = null;
+
+    protected function validationAttributes(): array
+    {
+        return [
+            'name' => 'Ad Soyad',
+            'email' => 'E-posta',
+            'message' => 'Mesaj',
+            'phone' => 'Telefon',
+            'subject' => 'Konu',
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'required' => ':attribute alanı zorunludur.',
+            'email' => 'Geçerli bir :attribute adresi giriniz.',
+            'min' => ':attribute en az :min karakter olmalıdır.',
+            'max' => ':attribute en fazla :max karakter olmalıdır.',
+        ];
+    }
 
     public function submit(ProcessContactSubmission $action): void
     {
         // Honeypot check
         if ($this->website !== '') {
             $this->submitted = true;
+
             return;
         }
 
         // Rate limiting: 3 submissions per IP per 10 minutes
-        $key = 'contact-form:' . (request()->ip() ?? 'unknown');
+        $key = 'contact-form:'.(request()->ip() ?? 'unknown');
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $seconds = RateLimiter::availableIn($key);
-            $this->errorMessage = __('Too many submissions. Please wait :seconds seconds before trying again.', ['seconds' => $seconds]);
+            $this->errorMessage = "Çok fazla deneme yaptınız. Lütfen {$seconds} saniye sonra tekrar deneyiniz.";
+
             return;
         }
 
@@ -57,7 +85,7 @@ final class ContactForm extends Component
                 message: $this->message,
                 phone: $this->phone,
                 subject: $this->subject,
-                formKey: 'contact',
+                formKey: $this->formKey,
                 ipAddress: request()->ip(),
             );
 
@@ -68,7 +96,7 @@ final class ContactForm extends Component
             $this->submitted = true;
 
         } catch (\Throwable $e) {
-            $this->errorMessage = __('Something went wrong. Please try again or contact us directly.');
+            $this->errorMessage = 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya bizimle doğrudan iletişime geçin.';
             report($e);
         }
     }
@@ -79,7 +107,7 @@ final class ContactForm extends Component
         $this->errorMessage = null;
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('contact::livewire.contact-form');
     }
